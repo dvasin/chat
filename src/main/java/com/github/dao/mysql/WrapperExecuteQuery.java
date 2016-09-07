@@ -1,30 +1,27 @@
-package com.github.sql;
+package com.github.dao.mysql;
 
 import java.sql.*;
 import java.util.Map;
-import static com.github.sql.ConnectionPool.*;
+import static com.github.dao.mysql.ConnectionPool.*;
 
 public class WrapperExecuteQuery {
 
-    public ResultSet executeSimpleQuery(String sql_query) {
+    public ResultSet executeSimpleQuery(String sql_query) throws SQLException{
         Connection c = getConnection();
         ResultSet resultSet = null;
         Statement st;
         try {
             st = c.createStatement();
             resultSet = st.executeQuery(sql_query);
-        } catch (SQLException e) {
-            e.printStackTrace();
         } finally {
             if(c != null) {
                 freeConnection(c);
             }
         }
-
         return resultSet;
     }
 
-    public ResultSet executeParametrizedQuery(String sql_query, Map<Integer, Object> parametersMap) {
+    public ResultSet executeParametrizedQuery(String sql_query, Map<Integer, Object> parametersMap) throws SQLException {
         Connection c = getConnection();
         ResultSet resultSet = null;
         PreparedStatement pst;
@@ -39,12 +36,10 @@ public class WrapperExecuteQuery {
                 } else if (entry.getValue() instanceof String) {
                     pst.setString(entry.getKey(), String.valueOf(entry.getValue()));
                 } else {
-                    throw new Exception("Parameter value is not valid");
+                    throw new SQLException("Parameter value is not valid");
                 }
             }
             resultSet = pst.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             if(c != null) {
                 freeConnection(c);
@@ -54,7 +49,7 @@ public class WrapperExecuteQuery {
         return resultSet;
     }
 
-    public void executeQueryCallableStatement(String sql_query, Map<Integer, Object> parametersMap) {
+    public void executeQueryCallableStatement(String sql_query, Map<Integer, Object> parametersMap) throws SQLException {
         Connection c = getConnection();
         try {
             CallableStatement cst = c.prepareCall(sql_query);
@@ -66,12 +61,10 @@ public class WrapperExecuteQuery {
                 } else if (entry.getValue() instanceof String) {
                     cst.setString(entry.getKey(), entry.getValue().toString());
                 } else {
-                    throw new Exception("Parameter value is not valid");
+                    throw new SQLException("Parameter value is not valid");
                 }
             }
             cst.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             if(c != null) {
                 freeConnection(c);

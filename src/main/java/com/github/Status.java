@@ -2,5 +2,5 @@ package com.github;
 
 public enum Status {
 
-    LOGEDIN, LOGEDOUT, KICKED
+    LOGGEDIN, LOGGEDOUT, KICKED, NOT_EXIST
 }

@@ -1,7 +1,7 @@
 package com.github;
 
-import com.github.sql.WrapperExecuteQuery;
-import com.github.sql.WrapperExecuteUpdate;
+import com.github.dao.mysql.WrapperExecuteQuery;
+import com.github.dao.mysql.WrapperExecuteUpdate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;

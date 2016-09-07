@@ -2,5 +2,5 @@ package com.github;
 
 public enum Role {
 
-    USER, ADMIN
+    USER, ADMIN, NOT_EXIST
 }

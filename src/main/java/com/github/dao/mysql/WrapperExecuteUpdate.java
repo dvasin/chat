@@ -1,16 +1,17 @@
-package com.github.sql;
+package com.github.dao.mysql;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Map;
 
-import static com.github.sql.ConnectionPool.freeConnection;
-import static com.github.sql.ConnectionPool.getConnection;
+import static com.github.dao.mysql.ConnectionPool.freeConnection;
+import static com.github.dao.mysql.ConnectionPool.getConnection;
 
 public class WrapperExecuteUpdate {
 
-    public int executeParametrizedUpdate(String sql_query, Map<Integer, Object> parametersMap) {
+    public int executeParametrizedUpdate(String sql_query, Map<Integer, Object> parametersMap) throws SQLException {
         int rowsInsert;
         Connection c = getConnection();
         try {
@@ -23,18 +24,15 @@ public class WrapperExecuteUpdate {
                 } else if (entry.getValue() instanceof String) {
                     ps.setString(entry.getKey(), entry.getValue().toString());
                 } else {
-                    throw new Exception("Parameter value is not valid");
+                    throw new SQLException("Parameter value is not valid");
                 }
             }
             rowsInsert = ps.executeUpdate();
             return rowsInsert;
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
-            if(c != null) {
+            if (c != null) {
                 freeConnection(c);
             }
         }
-        return 0;
     }
 }
