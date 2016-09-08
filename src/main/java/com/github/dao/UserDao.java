@@ -10,7 +10,7 @@ public interface UserDao {
 
     void login(User user);
     void logout(User user);
-    void kick(User user);
+    void kick(User whoKicked, User thatKicked);
     Status getStatus(User user);
     Role getRole(User user);
     void unkick(User user);

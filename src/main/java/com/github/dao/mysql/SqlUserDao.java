@@ -1,5 +1,6 @@
 package com.github.dao.mysql;
 
+import com.github.Message;
 import com.github.Role;
 import com.github.Status;
 import com.github.User;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,11 @@ public class SqlUserDao implements UserDao {
         } catch (SQLException e) {
             logger.error("Неуспешная попытка обновления статуса (kicked) пользователя {}", user);
         }
+    }
+
+    public void kick(User whoKicked, User thatKicked) {
+        kick(thatKicked);
+        new SqlMessageDao().addMessage(new Message(whoKicked, new Date(), String.format("Был выкинут пользователь %s", thatKicked.getNickname())));
     }
 
     public Status getStatus(User user) {
