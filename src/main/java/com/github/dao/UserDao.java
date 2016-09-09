@@ -11,8 +11,8 @@ public interface UserDao {
     void login(User user);
     void logout(User user);
     void kick(User whoKicked, User thatKicked);
-    Status getStatus(User user);
-    Role getRole(User user);
+    Status getStatus(String nickName);
+    Role getRole(String nickName);
     void unkick(User user);
     List<User> getLoggedinUsers();
 }

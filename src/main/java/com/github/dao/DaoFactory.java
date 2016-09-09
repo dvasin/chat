@@ -6,6 +6,7 @@ public abstract class DaoFactory {
 
     private static DaoFactory factory;
 
+    //TODO поменять параметры
     public static DaoFactory getInstance(Factory factoryLocal) {
         if(factory == null) {
             if(factoryLocal.equals(Factory.MYSQL))

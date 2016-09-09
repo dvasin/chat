@@ -20,15 +20,13 @@ public class SqlUserDao implements UserDao {
     private static final String LOGIN_EXISTS_USER = "UPDATE User SET Status = 'loggedin' WHERE NICK = ?";
     private static final String LOGOUT_USER = "UPDATE User SET Status = 'loggedout' WHERE NICK = ?";
     private static final String KICK_USER = "UPDATE User SET Status = 'kicked' WHERE NICK = ?";
-    private static final String GET_ALL_USERS = "SELECT NICK FROM User";
-    private static final String GET_ALL_LOGGEDIN_USERS = "SELECT * FROM User WHERE status = 'loggedin'";
     private static final String GET_USER_STATUS = "SELECT status from User where nick = ?";
     private static final String GET_USER_ROLE = "SELECT role from User where nick = ?";
     private static final String CREATE_NEW_USER = "INSERT INTO User VALUES(?, ?, ?)";
 
     public void login(User user) {
         Map<Integer, Object> map = new HashMap<Integer, Object>();
-        if (getStatus(user).name().equals(Status.NOT_EXIST.name())) {
+        if (getStatus(user.getNickname()).equals(Status.NOT_EXIST)) {
             map.put(1, user.getNickname());
             map.put(2, Status.LOGGEDIN.name().toLowerCase());
             map.put(3, user.getRole().name().toLowerCase());
@@ -61,7 +59,7 @@ public class SqlUserDao implements UserDao {
         Map<Integer, Object> map = new HashMap<Integer, Object>();
         map.put(1, user.getNickname());
         try {
-            new WrapperExecuteUpdate().executeParametrizedUpdate(LOGOUT_USER, map);
+            new WrapperExecuteUpdate().executeParametrizedUpdate(KICK_USER, map);
         } catch (SQLException e) {
             logger.error("Неуспешная попытка обновления статуса (kicked) пользователя {}", user);
         }
@@ -72,10 +70,10 @@ public class SqlUserDao implements UserDao {
         new SqlMessageDao().addMessage(new Message(whoKicked, new Date(), String.format("Был выкинут пользователь %s", thatKicked.getNickname())));
     }
 
-    public Status getStatus(User user) {
+    public Status getStatus(String nickName) {
         try {
             Map<Integer, Object> map = new HashMap<Integer, Object>();
-            map.put(1, user.getNickname());
+            map.put(1, nickName);
             ResultSet rs = new WrapperExecuteQuery().executeParametrizedQuery(GET_USER_STATUS, map);
             if (rs.next()) {
                 return Status.valueOf(rs.getString(1).toUpperCase());
@@ -86,10 +84,10 @@ public class SqlUserDao implements UserDao {
         return Status.NOT_EXIST;
     }
 
-    public Role getRole(User user) {
+    public Role getRole(String nickName) {
         try {
             Map<Integer, Object> map = new HashMap<Integer, Object>();
-            map.put(1, user.getNickname());
+            map.put(1, nickName);
             ResultSet rs = new WrapperExecuteQuery().executeParametrizedQuery(GET_USER_ROLE, map);
             if (rs.next()) {
                 return Role.valueOf(rs.getString(1).toUpperCase());
