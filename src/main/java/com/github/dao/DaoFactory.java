@@ -6,12 +6,10 @@ public abstract class DaoFactory {
 
     private static DaoFactory factory;
 
-    //TODO поменять параметры
-    public static DaoFactory getInstance(Factory factoryLocal) {
+    public static DaoFactory getInstance() {
         if(factory == null) {
-            if(factoryLocal.equals(Factory.MYSQL))
-            factory = new SqlDaoFactory();
-            return factory;
+                factory = new SqlDaoFactory();
+                return factory;
         } else return factory;
     }
 

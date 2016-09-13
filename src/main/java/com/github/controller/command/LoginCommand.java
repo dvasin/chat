@@ -4,7 +4,6 @@ import com.github.Role;
 import com.github.Status;
 import com.github.User;
 import com.github.dao.DaoFactory;
-import com.github.dao.Factory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,13 +13,13 @@ public class LoginCommand implements Command {
     private static Logger logger = LoggerFactory.getLogger(LoginCommand.class);
 
     public String execute(HttpServletRequest request) {
-        DaoFactory factory = DaoFactory.getInstance(Factory.MYSQL);
+        DaoFactory factory = DaoFactory.getInstance();
         String nickName = request.getParameter("nickName");
         Status status = factory.getUserDAO().getStatus(nickName);
         Role role = factory.getUserDAO().getRole(nickName);
 
         User user = new User(nickName, status, role);
         factory.getUserDAO().login(user);
-        return null;
+        return "/jsp/index.jsp";
     }
 }

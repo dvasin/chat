@@ -1,6 +1,8 @@
 package com.github.dao.mysql;
 
 import com.github.Message;
+import com.github.Role;
+import com.github.Status;
 import com.github.User;
 import com.github.dao.MessageDao;
 import org.slf4j.Logger;
@@ -35,9 +37,12 @@ public class SqlMessageDao implements MessageDao {
         try {
             ResultSet rs = new WrapperExecuteQuery().executeParametrizedQuery(GET_LAST_MESSAGES, map);
             while (rs.next()) {
-                User user = new User(rs.getString(2));
-                user.setStatus(new SqlUserDao().getStatus(user));
-                user.setRole(new SqlUserDao().getRole(user));
+
+                String nickName = rs.getString(2);
+                Status status = new SqlUserDao().getStatus(nickName);
+                Role role = new SqlUserDao().getRole(nickName);
+
+                User user = new User(nickName, status, role);
                 messages.add(new Message(user, new Date(rs.getTimestamp(3).getTime()), rs.getString(4)));
             }
         } catch (SQLException e) {

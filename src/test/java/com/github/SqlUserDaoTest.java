@@ -13,14 +13,14 @@ public class SqlUserDaoTest {
 
     @Test
     public void getStatusNotExistUser() {
-        Status status =  new SqlUserDao().getStatus(new User("not exist"));
+        Status status =  new SqlUserDao().getStatus("not exist");
         Assert.assertEquals("Проверка статусов", status.name(), Status.NOT_EXIST.name());
         logger.info(status.toString());
     }
 
     @Test
     public void getStatusLoggedinUser() {
-        Status status =  new SqlUserDao().getStatus(new User("test"));
+        Status status =  new SqlUserDao().getStatus("test");
         Assert.assertEquals("Проверка статусов", status.name(), Status.LOGGEDIN.name());
         logger.info(status.toString());
     }
@@ -28,25 +28,27 @@ public class SqlUserDaoTest {
     @Test
     public void loginTest() {
         String nickName = "random" + new Random().nextInt(1000);
+        Status status =  Status.NOT_EXIST;
+        Role role = Role.USER;
         logger.info("nickName = {}",nickName);
-        User user = new User(nickName, Status.NOT_EXIST, Role.USER);
+        User user = new User(nickName, status, role);
         new SqlUserDao().login(user);
 
-        Status status =  new SqlUserDao().getStatus(user);
+        status =  new SqlUserDao().getStatus(nickName);
         Assert.assertEquals("Проверка статуса", status.name(), Status.LOGGEDIN.name());
         logger.info(status.toString());
     }
 
     @Test
     public void getRoleNotExistUser() {
-        Role role =  new SqlUserDao().getRole(new User("not exist"));
+        Role role =  new SqlUserDao().getRole("not exist");
         Assert.assertEquals("Проверка ролей", role.name(), Role.NOT_EXIST.name());
         logger.info(role.toString());
     }
 
     @Test
     public void getRoleUserExistUser() {
-        Role role =  new SqlUserDao().getRole(new User("test"));
+        Role role =  new SqlUserDao().getRole("test");
         Assert.assertEquals("Проверка ролей", role.name(), Role.USER.name());
         logger.info(role.toString());
     }
