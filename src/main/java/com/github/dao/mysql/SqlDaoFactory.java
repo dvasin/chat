@@ -7,10 +7,10 @@ import com.github.dao.UserDao;
 public class SqlDaoFactory extends DaoFactory {
 
     public MessageDao getMessageDAO() {
-        return null;
+        return new SqlMessageDao();
     }
 
     public UserDao getUserDAO() {
-        return null;
+        return new SqlUserDao();
     }
 }

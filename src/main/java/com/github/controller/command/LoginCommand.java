@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 public class LoginCommand implements Command {
     private static Logger logger = LoggerFactory.getLogger(LoginCommand.class);
@@ -17,9 +18,12 @@ public class LoginCommand implements Command {
         String nickName = request.getParameter("nickName");
         Status status = factory.getUserDAO().getStatus(nickName);
         Role role = factory.getUserDAO().getRole(nickName);
-
         User user = new User(nickName, status, role);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user);
+
         factory.getUserDAO().login(user);
-        return "/jsp/index.jsp";
+        return "/jsp/chat.jsp";
     }
 }

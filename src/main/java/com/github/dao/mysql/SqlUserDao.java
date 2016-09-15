@@ -29,7 +29,7 @@ public class SqlUserDao implements UserDao {
         if (getStatus(user.getNickname()).equals(Status.NOT_EXIST)) {
             map.put(1, user.getNickname());
             map.put(2, Status.LOGGEDIN.name().toLowerCase());
-            map.put(3, user.getRole().name().toLowerCase());
+            map.put(3, Role.USER.name().toLowerCase());
             try {
                 new WrapperExecuteUpdate().executeParametrizedUpdate(CREATE_NEW_USER, map);
             } catch (SQLException e) {
