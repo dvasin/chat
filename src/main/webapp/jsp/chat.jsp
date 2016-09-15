@@ -4,18 +4,23 @@
 <html>
 <head><title>chat</title></head>
 <body>
-    <a href="chat.jsp?command=logout">Logout</a>
+
 	<div>
 		<c:forEach var="elem" items="${lastmessages}">
 		    <c:out value="${elem.user.nickName}: "/>
 		    <c:out value="${elem.text}"/><br>
-	</c:forEach>
+	    </c:forEach>
 	</div>
 	<form name="loginForm" method="POST" action="chat.jsp">
 		<input type="hidden" name="command" value="sendMessage" />
 		Сообщение:<br>
 		<textarea  type="text" name="message" value="" cols="40" rows="3"></textarea>
 		<input type="submit" value="->"/>
-	</form><hr/>
+	</form>
+
+	<form id="logoutForm" action="chat.jsp" method="post">
+        <a href="javascript:;" onclick="document.getElementById('logoutForm').submit();">Logout</a>
+        <input type="hidden" name="command" value="logout"/>
+    </form>
 </body>
 </html>
