@@ -5,6 +5,7 @@ import com.github.Role;
 import com.github.Status;
 import com.github.User;
 import com.github.dao.MessageDao;
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +49,6 @@ public class SqlMessageDao implements MessageDao {
         } catch (SQLException e) {
             logger.error("Ошибка получения последних сообщений {}", e.getMessage());
         }
-        return messages;
+        return Lists.reverse(messages);
     }
 }

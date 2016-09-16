@@ -16,6 +16,10 @@ public enum EnumCommand {
         {
             this.command = new SendMessageCommand();
         }
+    }, GETLASTMESSAGES {
+        {
+            this.command = new GetLastMessages();
+        }
     };
 
     Command command;
