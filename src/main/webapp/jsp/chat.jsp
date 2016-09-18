@@ -3,35 +3,53 @@
 <!DOCTYPE html>
 <html>
 <head><title>chat</title></head>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.0.min.js"></script>
 <body>
 
 
-	<div>
-		<c:forEach var="elem" items="${messages}">
+	<div id="messages">
+		<c:forEach var="elem" items="${sessionScope.messages}">
 		    <c:out value="${elem.user.nickname}: "/>
 		    <c:out value="${elem.textMessage}"/><br>
 	    </c:forEach>
 	</div>
-	<form name="sendMessageForm" method="POST" action="chat.jsp">
+    <!--send message-->
+	<form name="sendMessageForm" method="POST" action="chat">
 		<input type="hidden" name="command" value="sendMessage" />
-		Сообщение:<br>
-		<textarea  type="text" name="message" value="" cols="40" rows="3"></textarea>
+		<textarea name="message" cols="40" rows="3"></textarea>
 		<input type="submit" value="->"/>
 	</form>
-
-    <form name="refresh" method="POST" action="chat.jsp">
+	<!--refresh messages-->
+    <form name="refresh" method="POST" action="chat">
         <input type="hidden" name="command" value="getlastmessages" />
-        <p><input type="submit" value="&#8646;"></p>
+        <!--<p><input type="submit" value="&#8646;"></p>-->
+        <p><input type="button" onclick="getLastMessages()" value="&#8646;"></p>--
     </form>
 
-	<form id="logoutForm" action="chat.jsp" method="post">
+	<!--logout-->
+	<form id="logoutForm" action="chat" method="post">
         <a href="javascript:;" onclick="document.getElementById('logoutForm').submit();">Logout</a>
         <input type="hidden" name="command" value="logout"/>
     </form>
 
-    <c:out value="${messages}"/>
+    <script type="text/javascript">
+        function show()
+        {
+            $.ajax({
+                type: "GET",
+                url: "chat",
+                data: {"command":"getlastmessages"},
+                success: function(html){
+                    $('#messages').html(html);
+                }
+            });
+        }
 
+        $(document).ready(function(){
+            show();
+            setInterval('show()',1000);
+        });
+    </script>
 
-
-</body>
+    </body>
 </html>
