@@ -16,7 +16,6 @@ public class SendMessageCommand implements Command {
     public String execute(HttpServletRequest request) {
         DaoFactory factory = DaoFactory.getInstance();
         User user = (User)request.getSession().getAttribute("user");
-        logger.info(user.toString());
         String text = request.getParameter("message");
         factory.getMessageDAO().addMessage(new Message(user, new Date(), text));
         return "/jsp/chat.jsp";

@@ -1,5 +1,8 @@
 package com.github.dao.mysql;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionPool {
-
+    private static Logger logger = LoggerFactory.getLogger(ConnectionPool.class);
     private static final String USER = "denis";
     private static final String PASSWORD = "password";
     private static final String URL = "jdbc:mysql://109.94.176.197:3306/dvasin";
@@ -18,7 +21,7 @@ public class ConnectionPool {
 
     private static ConnectionPool getInstance() {
         if (connectionPool == null) {
-            Driver driver = null;
+            Driver driver;
             try {
                 driver = (Driver) Class.forName(
                         DRIVER_NAME).newInstance();
@@ -37,9 +40,12 @@ public class ConnectionPool {
 
     public static Connection getConnection() {
         Connection c = null;
+        logger.info("getConnection - " + connections.toString());
         if(connections.isEmpty()) {
+            logger.info("connectios is empty!");
             try {
                 c = DriverManager.getConnection(URL, USER, PASSWORD);
+                connections.add(c);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -51,12 +57,14 @@ public class ConnectionPool {
     }
 
     public static void freeConnection(Connection c) {
+        logger.info("Before freeConnection - " + connections.toString());
         for (int i = 0; i < connections.size(); i++) {
             if(connections.get(i) == null) {
                 connections.set(i, c);
                 break;
             }
         }
+        logger.info("After freeConnection - " + connections.toString());
     }
 
 }

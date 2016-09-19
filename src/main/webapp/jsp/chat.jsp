@@ -40,14 +40,15 @@
                 url: "chat",
                 data: {"command":"getlastmessages"},
                 success: function(html){
-                    $('#messages').html(html);
-                }
+                    //alert(html.substring(html.indexOf('<div id="messages">') + '<div id="messages">'.length, html.indexOf('</div>')))
+                    $('#messages').html(html.substring(html.indexOf('<div id="messages">') + '<div id="messages">'.length, html.indexOf('</div>')))
+                 }
             });
         }
 
         $(document).ready(function(){
             show();
-            setInterval('show()',1000);
+            setInterval('show()',7000);
         });
     </script>
 

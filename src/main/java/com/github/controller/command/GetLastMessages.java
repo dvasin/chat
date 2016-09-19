@@ -18,4 +18,9 @@ public class GetLastMessages implements Command {
         session.setAttribute("messages",messages);
         return "/jsp/chat.jsp";
     }
+
+    @Override
+    public String toString() {
+        return "GetLastMessages";
+    }
 }
