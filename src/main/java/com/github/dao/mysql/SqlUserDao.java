@@ -10,10 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlUserDao implements UserDao {
     private static Logger logger = LoggerFactory.getLogger(SqlUserDao.class);
@@ -23,6 +20,7 @@ public class SqlUserDao implements UserDao {
     private static final String GET_USER_STATUS = "SELECT status from User where nick = ?";
     private static final String GET_USER_ROLE = "SELECT role from User where nick = ?";
     private static final String CREATE_NEW_USER = "INSERT INTO User VALUES(?, ?, ?)";
+    private static final String GET_ONLINE_USERS = "SELECT nick FROM User WHERE status='loggedin'";
 
     public void login(User user) {
         Map<Integer, Object> map = new HashMap<Integer, Object>();
@@ -103,6 +101,15 @@ public class SqlUserDao implements UserDao {
     }
 
     public List<User> getLoggedinUsers() {
-        return null;
+        List<User> users = new ArrayList<User>();
+        try {
+            ResultSet rs = new WrapperExecuteQuery().executeSimpleQuery(GET_ONLINE_USERS);
+            while (rs.next()) {
+                users.add(new User(rs.getString(1)));
+            }
+        } catch (SQLException e) {
+            logger.error("Неуспешное получение пользователей онлайн:  {}", e.getMessage());
+        }
+        return users;
     }
 }

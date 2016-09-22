@@ -16,9 +16,9 @@ public enum EnumCommand {
         {
             this.command = new SendMessageCommand();
         }
-    }, GETLASTMESSAGES {
+    }, REFRESH {
         {
-            this.command = new GetLastMessages();
+            this.command = new RefreshCommand();
         }
     };
 

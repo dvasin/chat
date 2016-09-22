@@ -42,7 +42,6 @@ public class ConnectionPool {
         Connection c = null;
         logger.info("getConnection - " + connections.toString());
         if(connections.isEmpty()) {
-            logger.info("connectios is empty!");
             try {
                 c = DriverManager.getConnection(URL, USER, PASSWORD);
                 connections.add(c);
@@ -57,14 +56,12 @@ public class ConnectionPool {
     }
 
     public static void freeConnection(Connection c) {
-        logger.info("Before freeConnection - " + connections.toString());
         for (int i = 0; i < connections.size(); i++) {
             if(connections.get(i) == null) {
                 connections.set(i, c);
                 break;
             }
         }
-        logger.info("After freeConnection - " + connections.toString());
     }
 
 }

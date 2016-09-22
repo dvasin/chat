@@ -9,6 +9,6 @@ public class EmptyCommand implements Command {
     private static Logger logger = LoggerFactory.getLogger(EmptyCommand.class);
 
     public String execute(HttpServletRequest request) {
-        return "/index.jsp";
+        return "/jsp/index.jsp";
     }
 }

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Random;
 
 public class SqlUserDaoTest {
@@ -51,5 +52,11 @@ public class SqlUserDaoTest {
         Role role =  new SqlUserDao().getRole("test");
         Assert.assertEquals("Проверка ролей", role.name(), Role.USER.name());
         logger.info(role.toString());
+    }
+
+    @Test
+    public void getLoggedinUsersTest() {
+        List<User> users = new SqlUserDao().getLoggedinUsers();
+        logger.info(users.toString());
     }
 }

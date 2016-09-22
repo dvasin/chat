@@ -1,8 +1,6 @@
 package com.github.dao.mysql;
 
 import com.github.Message;
-import com.github.Role;
-import com.github.Status;
 import com.github.User;
 import com.github.dao.MessageDao;
 import com.google.common.collect.Lists;
@@ -27,7 +25,7 @@ public class SqlMessageDao implements MessageDao {
         try {
             new WrapperExecuteUpdate().executeParametrizedUpdate(ADD_MESSAGE, map);
         } catch (SQLException e) {
-            logger.error("Ошибка в методе addMessage : {}", e.getMessage());
+            logger.error("Error method addMessage : {}", e.getMessage());
         }
     }
 
@@ -38,16 +36,12 @@ public class SqlMessageDao implements MessageDao {
         try {
             ResultSet rs = new WrapperExecuteQuery().executeParametrizedQuery(GET_LAST_MESSAGES, map);
             while (rs.next()) {
-
                 String nickName = rs.getString(2);
-                Status status = new SqlUserDao().getStatus(nickName);
-                Role role = new SqlUserDao().getRole(nickName);
-
-                User user = new User(nickName, status, role);
+                User user = new User(nickName);
                 messages.add(new Message(user, new Date(rs.getTimestamp(3).getTime()), rs.getString(4)));
             }
         } catch (SQLException e) {
-            logger.error("Ошибка получения последних сообщений {}", e.getMessage());
+            logger.error("Error method getLastMessages {}", e.getMessage());
         }
         return Lists.reverse(messages);
     }
