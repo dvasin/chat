@@ -14,13 +14,13 @@ import java.util.*;
 
 public class SqlUserDao implements UserDao {
     private static Logger logger = LoggerFactory.getLogger(SqlUserDao.class);
-    private static final String LOGIN_EXISTS_USER = "UPDATE User SET Status = 'loggedin' WHERE NICK = ?";
-    private static final String LOGOUT_USER = "UPDATE User SET Status = 'loggedout' WHERE NICK = ?";
-    private static final String KICK_USER = "UPDATE User SET Status = 'kicked' WHERE NICK = ?";
-    private static final String GET_USER_STATUS = "SELECT status from User where nick = ?";
-    private static final String GET_USER_ROLE = "SELECT role from User where nick = ?";
-    private static final String CREATE_NEW_USER = "INSERT INTO User VALUES(?, ?, ?)";
-    private static final String GET_ONLINE_USERS = "SELECT nick FROM User WHERE status='loggedin'";
+    private static final String LOGIN_EXISTS_USER = "UPDATE user SET Status = 'loggedin' WHERE NICK = ?";
+    private static final String LOGOUT_USER = "UPDATE user SET Status = 'loggedout' WHERE NICK = ?";
+    private static final String KICK_USER = "UPDATE user SET Status = 'kicked' WHERE NICK = ?";
+    private static final String GET_USER_STATUS = "SELECT status from user where nick = ?";
+    private static final String GET_USER_ROLE = "SELECT role from user where nick = ?";
+    private static final String CREATE_NEW_USER = "INSERT INTO user VALUES(?, ?, ?)";
+    private static final String GET_ONLINE_USERS = "SELECT nick FROM user WHERE status='loggedin'";
 
     public void login(User user) {
         Map<Integer, Object> map = new HashMap<Integer, Object>();

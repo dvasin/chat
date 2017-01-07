@@ -13,8 +13,8 @@ import java.util.*;
 
 public class SqlMessageDao implements MessageDao {
     private static Logger logger = LoggerFactory.getLogger(SqlMessageDao.class);
-    private static final String ADD_MESSAGE = "INSERT INTO Message(nick, date, text) VALUES(?,?, ?)";
-    private static final String GET_LAST_MESSAGES = "SELECT * FROM Message WHERE id > (SELECT MAX(id) - ? FROM Message) ORDER BY id DESC";
+    private static final String ADD_MESSAGE = "INSERT INTO message(nick, date, text) VALUES(?,?, ?)";
+    private static final String GET_LAST_MESSAGES = "SELECT * FROM message WHERE id > (SELECT MAX(id) - ? FROM message) ORDER BY id DESC";
 
     public void addMessage(Message message) {
         User user = message.getUser();

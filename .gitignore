@@ -13,3 +13,4 @@ hs_err_pid*
 /.idea/
 /chat.iml
 /target/
+/src/main/java/com/github/dao/mysql/ConnectionPool.java

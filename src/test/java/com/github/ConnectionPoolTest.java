@@ -19,7 +19,7 @@ public class ConnectionPoolTest {
         logger.info("-----------------------------------------------");
         logger.info("testSelect");
         logger.info("-----------------------------------------------");
-        String query = "select * from User";
+        String query = "select * from user";
         // executing SELECT query
         ResultSet rs = new WrapperExecuteQuery().executeSimpleQuery(query);
         //stmt.executeUpdate(query);
@@ -37,7 +37,7 @@ public class ConnectionPoolTest {
         logger.info("-----------------------------------------------");
         logger.info("testInsert");
         logger.info("-----------------------------------------------");
-        String query = "INSERT INTO User VALUES(?, ?, ?)";
+        String query = "INSERT INTO user VALUES(?, ?, ?)";
         Map<Integer, Object> map = new HashMap<Integer, Object>();
         map.put(1, "nick"+new Random().nextInt(10000));
         map.put(2, "loggedin");
